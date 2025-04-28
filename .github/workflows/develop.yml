@@ -45,14 +45,11 @@ jobs:
           ${{ env.IMAGE_NAME }}:develop
           ${{ env.IMAGE_NAME }}:latest
 
-    # - name: Deploy container to Azure Web App
-    #   uses: azure/webapps-deploy@v2
-    #   with:
-    #     app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-    #     images: ${{ env.IMAGE_NAME }}:${{ env.TAG }}
-    #   env:
-    #     ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
-    #     ASPNETCORE_HTTP_PORTS: ${{ secrets.ASPNETCORE_HTTP_PORTS }}
+    - name: Deploy container to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        images: ${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
     - name: Logout from Azure
       run: |
