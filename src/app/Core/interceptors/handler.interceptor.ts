@@ -7,11 +7,13 @@ export const handlerInterceptor: HttpInterceptorFn = (req, next) => {
   authService.hasToken();
   const currentUser = authService.currentUserValue;
   
-  const isLoginRequest = req.url.includes('/login');
 
-  if (isLoginRequest) {
+  const isPublicRequest = req.url.includes('/login') || req.url.includes('/register');
+
+  if (isPublicRequest) {
     return next(req);
   }
+
 
   const authReq = req.clone({
     setHeaders: { Authorization: `Bearer ${currentUser}` }

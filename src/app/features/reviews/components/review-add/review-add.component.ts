@@ -11,11 +11,12 @@ import { ReviewService } from '../../services/review.service';
 })
 export class ReviewAddComponent {
   @Output() saveReviewEvent = new EventEmitter<any>(); 
-  @Input() bookId: number = 0;  // ID del libro al que se le está agregando la reseña
+  @Input() bookId: number = 0;
 
   newReview = {
     content: '',
-    rating: 5
+    rating: 5,
+    reviewed: false
   };
 
   constructor(private reviewService: ReviewService) {}
@@ -26,8 +27,8 @@ export class ReviewAddComponent {
       .subscribe(
         response => {
           console.log('Reseña agregada con éxito:', response.data);
-          this.saveReviewEvent.emit(response.data);  // Emitir la reseña agregada para actualizar la UI
-          this.newReview = { content: '', rating: 5 };  // Limpiar el formulario
+          this.saveReviewEvent.emit(response.data); 
+          this.newReview = { content: '', rating: 5, reviewed: true };
         },
         error => {
           console.error('Error al agregar reseña:', error);

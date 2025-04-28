@@ -7,6 +7,7 @@ import { ReviewCardComponent } from '../../../reviews/components/review-card/rev
 import { ReviewAddComponent } from '../../../reviews/components/review-add/review-add.component';
 import { ReviewService } from '../../../reviews/services/review.service';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Book } from '../../../../Core/models/book';
 
 @Component({
   selector: 'app-book-deatil',
@@ -21,6 +22,7 @@ export class BookDeatilComponent implements OnInit {
   isLoadingReviews: boolean = false;
   hasMoreReviews: boolean = true;
   currentUserId: number = 1;
+  userHasReviewed = false; 
 
   constructor(
     private route: ActivatedRoute,
@@ -39,32 +41,32 @@ export class BookDeatilComponent implements OnInit {
   getBookId(): number  {
     let id =  this.route.snapshot.paramMap.get('id');  
     if (id) {
-      return Number(id);  // Convierte el ID a número
+      return Number(id);
     } else {
-      return 0;  // Devuelve 0 si no se encuentra el ID
+      return 0;
     }
   }
   loadReviews(bookId: number): void {
-    if (!this.hasMoreReviews || this.isLoadingReviews) return;  // Evita nuevas peticiones si no hay más reseñas o estamos cargando
+    if (!this.hasMoreReviews || this.isLoadingReviews) return;
 
-    this.isLoadingReviews = true;  // Indicamos que estamos cargando
+    this.isLoadingReviews = true;  
     this.reviewService.getReviwes(bookId, this.currentPage, 10).subscribe((response) => {
       const newReviews = response.data;
-      this.reviews = [...this.reviews, ...newReviews];  // Añadimos las nuevas reseñas
-      this.currentPage++;  // Aumentamos la página para la siguiente carga
+      this.reviews = [...this.reviews, ...newReviews];  
+      this.currentPage++;  
 
-      // Si no hay más reseñas para cargar, establecemos `hasMoreReviews` como false
       if (newReviews.length === 0) {
         this.hasMoreReviews = false;
       }
       
-      this.isLoadingReviews = false;  // Restablecemos el estado de carga
+      this.isLoadingReviews = false; 
     });
   }
 
   loadBookDetails(bookId: number ) {
    this.bookService.getBook(bookId).subscribe((book) => {
       this.book = book.data;
+      this.userHasReviewed = this.book.reviewed;
     });
   }
 
@@ -79,6 +81,7 @@ export class BookDeatilComponent implements OnInit {
 
   addReview(newReview: any) {
     this.reviews.push(newReview);
+    this.userHasReviewed = true;
   }
 
   saveReview(review: any) {
@@ -88,6 +91,7 @@ export class BookDeatilComponent implements OnInit {
 
   deleteReview(review: any) {
     this.reviews = this.reviews.filter((r) => r.id !== review.id);
+    this.userHasReviewed = false;
     console.log('Reseña eliminada:', review);
   }
   
