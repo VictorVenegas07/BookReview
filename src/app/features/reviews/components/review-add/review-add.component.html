@@ -1,0 +1,39 @@
+<div class="p-6 rounded-xl transition-all duration-300 mb-6">
+    <h3 class="text-xl font-bold text-gray-800 mb-4">Agrega tu reseña</h3>
+  
+    <form (ngSubmit)="onSubmit()" #reviewForm="ngForm" class="space-y-6">
+  
+      <!-- Área de texto -->
+      <div>
+        <textarea id="content" name="content" [(ngModel)]="newReview.content"
+          class="w-full p-4 border border-gray-200 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-700 resize-none text-sm"
+          rows="4" placeholder="Comparte tu experiencia..." required></textarea>
+      </div>
+  
+      <!-- Calificación con estrellas -->
+      <div class="flex items-center space-x-2">
+        <label class="text-sm font-medium text-gray-700">Calificación:</label>
+        <div class="flex space-x-1">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <svg (click)="setRating(star)"
+              [class.fill-yellow-400]="newReview.rating >= star"
+              [class.fill-gray-300]="newReview.rating < star"
+              class="w-7 h-7 cursor-pointer transition-colors duration-300"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M10 15l-5.878 3.09L5.24 12.36 1 8.27l6.092-.53L10 2l2.908 5.74 6.092.53-4.24 4.09 1.118 5.73z"/>
+            </svg>
+          </ng-container>
+        </div>
+      </div>
+  
+      <!-- Botón de guardar -->
+      <div class="flex justify-end">
+        <button type="submit" [disabled]="!reviewForm.valid"
+          class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold px-8 py-2 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+          Publicar Reseña
+        </button>
+      </div>
+  
+    </form>
+  </div>
+  

@@ -1,0 +1,44 @@
+/* Ocultar scrollbar pero mantener la funcionalidad de desplazamiento */
+.review-scroll-container {
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Para navegadores Firefox */
+    scrollbar-color: transparent transparent; /* Para Firefox */
+  }
+  
+  .review-scroll-container::-webkit-scrollbar {
+    width: 8px; /* Ancho del scrollbar en WebKit (Chrome, Safari) */
+    height: 8px;
+  }
+  
+  .review-scroll-container::-webkit-scrollbar-track {
+    background: transparent; /* Fondo del track (donde se desplaza el scrollbar) */
+  }
+  
+  .review-scroll-container::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Hacer que el thumb (la parte móvil del scrollbar) sea invisible */
+  }
+  
+  .review-scroll-container:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* Cuando el usuario pasa el mouse sobre el área de scroll, el thumb aparece */
+    border-radius: 10px;
+  }
+  
+  /* Para navegadores más antiguos o que no soportan webkit */
+  .review-scroll-container::-ms-scrollbar {
+    width: 8px;
+  }
+  
+  .review-scroll-container::-ms-scrollbar-track {
+    background: transparent;
+  }
+  
+  .review-scroll-container::-ms-scrollbar-thumb {
+    background-color: transparent;
+  }
+  
+  .review-scroll-container:hover::-ms-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+  

@@ -1,0 +1,45 @@
+<div class="p-6 min-h-screen bg-gray-100">
+  <div class="bg-white shadow-2xl rounded-2xl p-8 max-w-3xl mx-auto relative">
+    <!-- Botón Volver -->
+    <button (click)="volver()" class="absolute top-4 left-4 text-gray-500 hover:text-gray-800 flex items-center space-x-1">
+      <i class="fas fa-arrow-left"></i>
+      <span>Volver</span>
+    </button>
+
+    <!-- Imagen de perfil -->
+    <div class="flex justify-center mb-6 relative">
+      <div class="relative">
+        <img *ngIf="profilePictureUrl" 
+             [src]="profilePictureUrl"   
+             alt="Foto de perfil"  
+             class="object-cover rounded-full w-48 h-48 border-4 border-blue-400 shadow-md transition-transform duration-300 hover:scale-105" 
+             loading="lazy">
+
+        <img *ngIf="!profilePictureUrl" 
+             src="https://ui-avatars.com/api/?name={{ user.username }}" 
+             alt="Avatar"
+             class="w-48 h-48 rounded-full border-4 border-blue-400 shadow-md transition-transform duration-300 hover:scale-105">
+
+        <!-- Botón para cambiar foto -->
+        <button (click)="seleccionarFoto()" 
+                class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg">
+          <i class="fas fa-camera"></i>
+        </button>
+
+        <!-- Input oculto -->
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+      </div>
+    </div>
+
+    <!-- Información del usuario -->
+    <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">{{ user.fullName }}</h1>
+
+    <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+      <h3 class="text-xl font-semibold text-gray-700 mb-4">Detalles del perfil</h3>
+      <div class="space-y-2">
+        <p class="text-gray-700"><strong class="font-medium">Username:</strong> {{ user.username }}</p>
+        <p class="text-gray-700"><strong class="font-medium">Email:</strong> {{ user.email }}</p>
+      </div>
+    </div>
+  </div>
+</div>

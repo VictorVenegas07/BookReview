@@ -1,0 +1,70 @@
+<div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 mb-6">
+  <div class="flex items-start space-x-4">
+    <!-- Imagen de perfil -->
+    <div class="flex-shrink-0">
+      <img src="https://ui-avatars.com/api/?name={{ review.userName }}" alt="Avatar"
+           class="w-10 h-10 rounded-full">
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="flex-1">
+      <div class="flex items-center justify-between">
+        <div>
+          <h4 class="text-gray-800 font-semibold">{{ review.userName }}</h4>
+          <p class="text-gray-500 text-xs">{{ review.createdAt | date:'mediumDate' }}</p>
+        </div>
+
+        <!-- Opciones de editar y eliminar -->
+        <div *ngIf="canEdit && !editMode" class="flex space-x-2">
+          <button (click)="editReview()" class="text-gray-500 hover:text-blue-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M17.5 3.5a2.5 2.5 0 0 0-3.536 0L5 12.464V15h2.536L16 6.036a2.5 2.5 0 0 0 0-3.536z" />
+            </svg>
+          </button>
+          <button (click)="deleteReview()" class="text-gray-500 hover:text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M6 4a1 1 0 011-1h6a1 1 0 011 1v1h5a1 1 0 110 2h-1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7H2a1 1 0 110-2h5V4zm2 3a1 1 0 10-2 0v8a1 1 0 102 0V7zm4 0a1 1 0 10-2 0v8a1 1 0 102 0V7z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mostrar contenido de la reseña -->
+      <div *ngIf="!editMode" class="mt-2">
+        <p class="text-gray-700">{{ review.content }}</p>
+        <div class="flex space-x-1 mt-2">
+          <ng-container *ngFor="let star of getStarRating(review.rating)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4 text-yellow-400" viewBox="0 0 20 20">
+              <path d="M10 15l-3.6 2.4 1-4.2L3 8.6l4.4-.4L10 3l1.6 4.2L16 8.6l-4.4 4.6 1 4.2z" />
+            </svg>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Formulario de edición (con el mismo diseño que agregar reseña) -->
+      <div *ngIf="editMode" class="mt-2 space-y-6">
+        <textarea [(ngModel)]="review.content"
+                  class="w-full p-4 border border-gray-200 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-700 resize-none text-sm"
+                  placeholder="Edita tu reseña" rows="4"></textarea>
+
+        <!-- Calificación con estrellas -->
+        <div class="flex space-x-1">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <svg (click)="setRating(star)"
+              [class.fill-yellow-400]="updatedReview.rating >= star"
+              [class.fill-gray-300]="updatedReview.rating < star"
+              class="w-7 h-7 cursor-pointer transition-colors duration-300"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M10 15l-5.878 3.09L5.24 12.36 1 8.27l6.092-.53L10 2l2.908 5.74 6.092.53-4.24 4.09 1.118 5.73z"/>
+            </svg>
+          </ng-container>
+        </div>
+
+        <div class="flex space-x-2 mt-2">
+          <button (click)="saveReview()" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600">Guardar</button>
+          <button (click)="cancelEdit()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm hover:bg-gray-400">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

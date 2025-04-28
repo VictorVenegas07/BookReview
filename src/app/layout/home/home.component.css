@@ -1,0 +1,32 @@
+.sidebar-transition {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+
+  .sidebar-content {
+    flex-grow: 1;
+  }
+  
+  .logout-btn {
+    border-top: 1px solid #e5e7eb; 
+    padding: 12px; 
+    text-align: left; 
+    color: #4b5563; 
+    transition: color 0.3s ease, background-color 0.3s ease; 
+  }
+  
+  .logout-btn:hover {
+    color: #1f2937; 
+    background-color: #f3f4f6; 
+  }
+  

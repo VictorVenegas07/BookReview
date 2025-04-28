@@ -1,0 +1,69 @@
+<div class="max-w-md p-6 rounded-lg relative">
+  <div class="absolute left-4">
+    <button (click)="goBack()" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Título -->
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Iniciar sesión</h2>
+
+  <!-- Formulario -->
+  <form (submit)="onRegister()" class="space-y-6">
+    <div>
+      <label for="username" class="block text-sm font-medium text-gray-700">Nombre Usuario</label>
+      <input
+        id="username"
+        type="text"
+        placeholder="Nombre de usuario"
+        [(ngModel)]="user.username"
+        name="username"
+        class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+    <div>
+      <label for="fullName" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+      <input
+        id="fullName"
+        type="text"
+        placeholder="Nombre completo"
+        [(ngModel)]="user.fullName"
+        name="fullName"
+        class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Introduce tu correo"
+        [(ngModel)]="user.email"
+        name="email"
+        class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Introduce tu contraseña"
+        [(ngModel)]="user.passwordHash"
+        name="password"
+        class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+    <div>
+      <button type="submit" class="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Registrarse
+      </button>
+    </div>
+  </form>
+</div>
