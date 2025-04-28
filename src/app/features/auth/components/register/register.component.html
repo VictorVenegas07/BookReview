@@ -7,21 +7,22 @@
     </button>
   </div>
 
-  <!-- Título -->
   <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Iniciar sesión</h2>
 
-  <!-- Formulario -->
-  <form (submit)="onRegister()" class="space-y-6">
+  <!-- FORMULARIO CON FORM GROUP -->
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-6">
+
     <div>
       <label for="username" class="block text-sm font-medium text-gray-700">Nombre Usuario</label>
       <input
         id="username"
         type="text"
-        placeholder="Nombre de usuario"
-        [(ngModel)]="user.username"
-        name="username"
+        formControlName="username"
         class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
+      <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid" class="text-red-500 text-sm mt-1">
+        El nombre de usuario es obligatorio
+      </div>
     </div>
 
     <div>
@@ -29,11 +30,12 @@
       <input
         id="fullName"
         type="text"
-        placeholder="Nombre completo"
-        [(ngModel)]="user.fullName"
-        name="fullName"
+        formControlName="fullName"
         class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
+      <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid" class="text-red-500 text-sm mt-1">
+        El nombre completo es obligatorio
+      </div>
     </div>
 
     <div>
@@ -41,11 +43,13 @@
       <input
         id="email"
         type="email"
-        placeholder="Introduce tu correo"
-        [(ngModel)]="user.email"
-        name="email"
+        formControlName="email"
         class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
+      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors" class="text-red-500 text-sm mt-1">
+        <div *ngIf="registerForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio</div>
+        <div *ngIf="registerForm.get('email')?.errors?.['email']">Debe ser un correo válido</div>
+      </div>
     </div>
 
     <div>
@@ -53,11 +57,13 @@
       <input
         id="password"
         type="password"
-        placeholder="Introduce tu contraseña"
-        [(ngModel)]="user.passwordHash"
-        name="password"
+        formControlName="passwordHash"
         class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
+      <div *ngIf="registerForm.get('passwordHash')?.touched && registerForm.get('passwordHash')?.errors" class="text-red-500 text-sm mt-1">
+        <div *ngIf="registerForm.get('passwordHash')?.errors?.['required']">La contraseña es obligatoria</div>
+        <div *ngIf="registerForm.get('passwordHash')?.errors?.['minlength']">Mínimo 6 caracteres</div>
+      </div>
     </div>
 
     <div>
@@ -65,5 +71,6 @@
         Registrarse
       </button>
     </div>
+
   </form>
 </div>

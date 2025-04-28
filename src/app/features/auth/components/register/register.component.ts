@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -17,18 +17,28 @@ export class RegisterComponent {
     email: '',
     passwordHash: '',
   };
+  registerForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+
+    this.registerForm = this.fb.group({
+      username: ['', [Validators.required]],
+      fullName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      passwordHash: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
   onRegister() {
-    const userToRegister = {
-      username: this.user.username,
-      passwordHash: this.user.passwordHash,
-      fullName: this.user.fullName,
-      email: this.user.email,
-      photo: null 
-    };
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched(); // marca todos como tocados para mostrar errores
+      return;
+    }
 
+    const userToRegister = {
+      ...this.registerForm.value,
+      photo: null
+    };
     this.authService.register(userToRegister).subscribe(
       response => {
         console.log('Registro exitoso', response);

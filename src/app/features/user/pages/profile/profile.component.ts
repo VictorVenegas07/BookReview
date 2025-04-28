@@ -37,19 +37,17 @@ export class ProfileComponent {
   }
 
   loadProfilePicture(): void {
-    this.userService.getProfilePicture().subscribe(
+    this.userService.getProfilePicture().then(
       (response: Blob) => {
-        
         if (response.size !== 0) {
           this.profilePictureUrl = URL.createObjectURL(response); // Liberar el objeto URL anterior
         }
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar la imagen de perfil', error);
       }
     );
   }
-
   volver() {
     window.history.back();
   }

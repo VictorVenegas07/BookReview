@@ -16,7 +16,7 @@
         <img *ngIf="!profilePictureUrl" src="https://ui-avatars.com/api/?name={{ user.username }}" alt="Avatar"
           class="w-10 h-10 rounded-full">
       </div>
-      <span class="hidden md:inline text-gray-700 font-medium">Usuario</span>
+      <span class="hidden md:inline text-gray-700 font-medium">{{user.username}}</span>
     </div>
   </nav>
 
@@ -35,7 +35,7 @@
             class="w-16 h-16 rounded-full border-2 border-gray-300 mr-4">
         </div>
         <div>
-          <h2 class="text-xl font-semibold">Usuario</h2>
+          <h2 class="text-xl font-semibold">{{user.username}}</h2>
           <p class="text-sm text-gray-600">Miembro desde 2021</p>
         </div>
       </div>

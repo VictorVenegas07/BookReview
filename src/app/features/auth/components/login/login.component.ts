@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
 
   async onLogin() {
     try {
@@ -21,16 +22,22 @@ export class LoginComponent {
       console.log('Inicio de sesión exitoso', response);
   
       if (response) {
+        const profileResponse = await this.authService.Getprofile().toPromise();
+        
+        this.toastr.success(`Bienvenido ${profileResponse.data.username}`, 'Inicio de sesión exitoso', {
+          timeOut: 3000,
+          progressBar: true,
+          positionClass: 'toast-top-right'
+        });
+  
         this.router.navigate(['home/book']);
       }
-  
-      const profileResponse = await this.authService.Getprofile().toPromise();
-      console.log('User profile:', profileResponse);
   
     } catch (error) {
       console.error('Error al iniciar sesión o al obtener el perfil:', error);
     }
   }
+  
   
 
 }
