@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,7 @@ export class RegisterComponent {
   };
   registerForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder, private toastr: ToastrService) {
 
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -31,7 +32,7 @@ export class RegisterComponent {
 
   onRegister() {
     if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched(); // marca todos como tocados para mostrar errores
+      this.registerForm.markAllAsTouched();
       return;
     }
 
@@ -41,8 +42,11 @@ export class RegisterComponent {
     };
     this.authService.register(userToRegister).subscribe(
       response => {
-        console.log('Registro exitoso', response);
-        this.router.navigate(['auth/login']); // Redirige al login después del registro
+        this.toastr.success(`Registro exitoso`, 'Bienvenido', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right'
+        });
+        this.router.navigate(['auth/login']);
       },
       error => {
         console.error('Error al registrar', error);

@@ -22,13 +22,13 @@ export const handlerInterceptor: HttpInterceptorFn = (req, next) => {
 
   const handleError = (error: HttpErrorResponse) => {
     const matchedError = errorMessages.find(e => e.status === error.status);
-
+    debugger
     if (matchedError) {
       toastr.error(matchedError.message, 'Error', { timeOut: 3000 });
     } else if (error.error?.message) {
       toastr.error(error.error.message, 'Error', { timeOut: 3000 });
     } else {
-      toastr.error('An unexpected error occurred.', 'Error', { timeOut: 3000 });
+      // toastr.error('An unexpected error occurred.', 'Error', { timeOut: 3000 });
     }
 
     return throwError(() => new Error('An error occurred. Please try again later.'));

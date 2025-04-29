@@ -37,17 +37,19 @@ export class ProfileComponent {
   }
 
   loadProfilePicture(): void {
-    this.userService.getProfilePicture().then(
-      (response: Blob) => {
+    this.userService.getProfilePicture().subscribe({
+      next: (response: Blob) => {
+        
         if (response.size !== 0) {
-          this.profilePictureUrl = URL.createObjectURL(response); // Liberar el objeto URL anterior
+          this.profilePictureUrl = URL.createObjectURL(response);
         }
       },
-      (error: any) => {
+      error: (error: any) => {
         console.error('Error al cargar la imagen de perfil', error);
       }
-    );
+    });
   }
+  
   volver() {
     window.history.back();
   }
@@ -79,10 +81,6 @@ export class ProfileComponent {
   }
 
   enviarImagenAlServidor(base64String: string) {
-    const payload = {
-      username: this.user.username,
-      imagenBase64: base64String
-    };
 
     this.userService.updateProfilePicture(base64String) .subscribe({
       next: (response) => {

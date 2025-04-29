@@ -110,10 +110,10 @@ export class AuthService {
     }
   }
   
-  async getProfilePicture(): Promise<Blob> {
-    const response = this.http.get(`${this.apiUrl}/picture`, { responseType: 'blob' }).toPromise();
-    return response as Promise<Blob>;
+  getProfilePicture(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/picture`, { responseType: 'blob' });
   }
+  
   
   updateProfilePicture(base64String: string): Observable<Blob> {
     const cleanedBase64 = base64String.split(',')[1];

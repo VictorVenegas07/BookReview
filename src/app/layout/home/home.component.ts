@@ -39,11 +39,12 @@ export class HomeComponent implements OnInit {
 
   async loadProfilePicture(): Promise<void> {
     try {
-      const response = await this.authService.getProfilePicture();
-      
-      if (response.size !== 0) {
-        this.profilePictureUrl = URL.createObjectURL(response); // Crea URL temporal
+      this.authService.getProfilePicture().subscribe((response: Blob) => {
+        if (response.size !== 0) {
+          this.profilePictureUrl = URL.createObjectURL(response); 
+        }
       }
+      );
     } catch (error) {
       console.error('Error al cargar la imagen de perfil', error);
     }
