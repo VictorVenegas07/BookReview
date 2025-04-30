@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
 import { Category } from '../../../../Core/models/Category';
 import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-book-list',
@@ -22,6 +25,7 @@ export class BookListComponent {
   hasMore: boolean = true;
   filteredBooks = [];
   categories: Category[] = [];
+  private searchSubject = new Subject<string>();
 
   constructor(private bookService: BookService) {
     console.log('BookListComponent initialized');
@@ -30,6 +34,16 @@ export class BookListComponent {
   ngOnInit(): void {
     this.loadBooks();
     this.loadCategories(); 
+    this.searchSubject
+    .pipe(
+      debounceTime(1000),
+      distinctUntilChanged()
+    )
+    .subscribe((searchTerm) => {
+      this.searchTerm = searchTerm;
+      this.resetPagination();
+      this.loadBooks();
+    });
   }
 
   loadBooks(): void {
@@ -65,17 +79,15 @@ export class BookListComponent {
     const scrollPosition = event.target.scrollTop + event.target.clientHeight;
     const scrollHeight = event.target.scrollHeight;
   
-    // Si estamos cerca del final y no estamos cargando más libros
     if (scrollHeight - scrollPosition < 100 && !this.isLoading && this.hasMore) {
       this.loadBooks();
     }
   }
 
   onSearchChange(): void {
-    this.resetPagination();
-    this.loadBooks();
+    this.searchSubject.next(this.searchTerm);
   }
-
+  
   onCategoryChange(): void {
     this.resetPagination();
     this.loadBooks();
